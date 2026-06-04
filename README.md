@@ -1,3 +1,4 @@
+```sql
 use dbalunos;
 
 create table aluno (
@@ -10,3 +11,4 @@ create table aluno (
 );
 
 select * from aluno;
+```
