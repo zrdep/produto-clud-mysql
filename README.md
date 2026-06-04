@@ -1,12 +1,12 @@
-create database dbproduto;
-use dbproduto;
+use dbalunos;
 
-create table produto (
+create table aluno (
 	id INT NOT NULL AUTO_INCREMENT,
     nome VARCHAR(100) NOT NULL,
-    quantidade INT NOT NULL,
-    valor DOUBLE NOT NULL,
+    curso VARCHAR(100) NOT NULL,
+    matricula VARCHAR(100) NOT NULL,
+    periodoAtual INT NOT NULL,
     PRIMARY KEY (id)
 );
 
-select * from produto;
+select * from aluno;
