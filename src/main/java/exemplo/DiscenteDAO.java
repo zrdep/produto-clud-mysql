@@ -5,75 +5,78 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProdutoDAO {
+public class DiscenteDAO {
 
-    public void salvar(Produto produto) throws Exception {
-        var sql = "insert into produto "
-                + "(nome, quantidade, valor) values (?, ?, ?)";
+    public void salvar(Discente discente) throws Exception {
+        var sql = "insert into aluno "
+                + "(nome, matricula, curso, periodoAtual) values (?, ?, ?, ?)";
         try (var conexao = Conexao.obterConexao();
              var stmt = conexao.prepareStatement(sql)) {
-            stmt.setString(1, produto.nome());
-            stmt.setInt(2, produto.quantidade());
-            stmt.setDouble(3, produto.valor());
+            stmt.setString(1, discente.nome());
+            stmt.setString(2, discente.matricula());
+            stmt.setString(3, discente.curso());
+            stmt.setInt(4, discente.periodoAtual());
             stmt.executeUpdate();
         } catch (SQLException e) {
             throw new Exception(e);
         }
     }
 
-    public List<Produto> buscarTodos() throws Exception {
-        var sql = "select * from produto";
-        List<Produto> produtos = new ArrayList<>();
+    public List<Discente> buscarTodos() throws Exception {
+        var sql = "select * from aluno";
+        List<Discente> discentes = new ArrayList<>();
         try (var conexao = Conexao.obterConexao();
              var stmt = conexao.prepareStatement(sql)) {
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
-                    Produto produto = new Produto(
+                    Discente discente = new Discente(
                             rs.getLong("id"),
                             rs.getString("nome"),
-                            rs.getInt("quantidade"),
-                            rs.getDouble("valor")
+                            rs.getString("matricula"),
+                            rs.getString("curso"),
+                            rs.getInt("periodoAtual")
                     );
-                    produtos.add(produto);
+                    discentes.add(discente);
                 }
             }
         } catch (SQLException e) {
             throw new Exception(e);
         }
-        return produtos;
+        return discentes;
     }
 
-    public Produto buscarPorId(Long id) throws Exception {
-        var sql = "select * from produto where id = ?";
-        Produto produto = null;
+    public Discente buscarPorId(Long id) throws Exception {
+        var sql = "select * from aluno where id = ?";
+        Discente discente = null;
         try (var conexao = Conexao.obterConexao();
              var stmt = conexao.prepareStatement(sql)) {
             stmt.setLong(1, id);
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
-                    produto = new Produto(
+                    discente = new Discente(
                             rs.getLong("id"),
                             rs.getString("nome"),
-                            rs.getInt("quantidade"),
-                            rs.getDouble("valor")
+                            rs.getString("matricula"),
+                            rs.getString("curso"),
+                            rs.getInt("periodoAtual")
                     );
                 }
             }
         } catch (SQLException e) {
             throw new Exception(e);
         }
-        return produto;
+        return discente;
     }
 
-    public void atualizar(Produto produto) throws Exception {
-        var sql = "update produto set nome = ?, "
-                + "quantidade = ?, valor = ? where id = ?";
+    public void atualizar(Discente discente) throws Exception {
+        var sql = "update aluno set nome = ?, matricula = ?, curso = ?, periodoAtual = ? where id = ?";
         try (var conexao = Conexao.obterConexao();
              var stmt = conexao.prepareStatement(sql)) {
-            stmt.setString(1, produto.nome());
-            stmt.setInt(2, produto.quantidade());
-            stmt.setDouble(3, produto.valor());
-            stmt.setLong(4, produto.id());
+            stmt.setString(1, discente.nome());
+            stmt.setString(2, discente.matricula());
+            stmt.setString(3, discente.curso());
+            stmt.setInt(4, discente.periodoAtual());
+            stmt.setLong(5, discente.id());
             stmt.executeUpdate();
         } catch (SQLException e) {
             throw new Exception(e);
@@ -81,7 +84,7 @@ public class ProdutoDAO {
     }
 
     public void excluir(Long id) throws Exception {
-        var sql = "delete from produto where id = ?";
+        var sql = "delete from aluno where id = ?";
         try (var conexao = Conexao.obterConexao();
              var stmt = conexao.prepareStatement(sql)) {
             stmt.setLong(1, id);
